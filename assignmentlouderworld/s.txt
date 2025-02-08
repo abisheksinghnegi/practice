@@ -1,0 +1,50 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./App.css";
+
+const App = () => {
+  const [weather, setWeather] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const apiKey = "0098891c1f76526340034251013faf6f";
+        const response = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?q=Sydney&units=metric&appid=${apiKey}`
+        );
+        setWeather(response.data);
+      } catch (err) {
+        setError("Error fetching weather data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWeather();
+  }, []);
+
+  return (
+    <div className="container">
+      <h1 className="title">Sydney Weather</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        weather && (
+          <div className="card">
+            <h2>{weather.name}</h2>
+            <p>Temperature: {weather.main.temp}°C</p>
+            <p>Weather: {weather.weather[0].description}</p>
+            <p>Humidity: {weather.main.humidity}%</p>
+            <p>Wind Speed: {weather.wind.speed} m/s</p>
+          </div>
+        )
+      )}
+    </div>
+  );
+};
+
+export default App;
