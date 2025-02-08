@@ -12,3 +12,5 @@ EventListApp is a React-based web application that fetches and displays upcoming
    ```bash
    git clone <repository-url>
    cd EventListApp
+## deployed link:
+https://louderworldassignment.netlify.app/
